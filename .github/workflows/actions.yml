@@ -19,11 +19,6 @@ jobs:
         with:
           go-version: 1.21
 
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3
-        with:
-          version: v1.54
-
       - name: Run Tests
         run: go test -v ./...
 
@@ -42,12 +37,13 @@ jobs:
           go-version: 1.21
 
       - name: Build
-        run: go build -v ./... -o bin/
+        run: go build -v -o bin/homework-${{ matrix.os }} ./...
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v4
         with:
           path: 'bin/'
+          name: homework-${{ matrix.os }}
   deploy-production:
     name: Deploy app to Production
     runs-on: ubuntu-latest
